@@ -1,0 +1,16 @@
+<suite name="ExportKontrolle" parallel="tests" thread-count="1">
+	<test name="ChromeTest">
+		<listeners>
+			<listener class-name="utilities.ExtenetReport" />
+		</listeners>
+		<groups>
+			<run>
+				<include name="Low"></include>
+			</run>
+		</groups>
+		<parameter name="browser" value="chrome"></parameter>
+		<classes>
+			<class name="testCase.UserArtikelstammAddOrEditPageTest"></class>
+		</classes>
+	</test>
+</suite>
