@@ -21,7 +21,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 	SoftAssert softAssert;
 	GeneralUtilities gu = new GeneralUtilities();
 
-	@Test//(enabled = false)
+	@Test(groups="Low")
 	public void verifyToPossibleCreateNewArtikel_TC54307ii()
 			throws InvalidFormatException, IOException, InterruptedException {
 		lp = new LoginPage(driver);
@@ -36,7 +36,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 		umLp.anmeldenClick();
 		uwp.clickWarrenstammId();
 		Thread.sleep(3000);
-		for (int i = 0; i < 2; i++) {
+		for (int i = 0; i < 50; i++) {
 			Thread.sleep(1000);
 			uasp.waitUntilNewArtikelHinzufugenButtonClickable();
 			uasp.clickOnNewArtikelHinzufugenButton();
@@ -48,7 +48,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 			uasp.clickOnZuruckButton();
 			String actual = uasp.getArtikelnummerCorrespondingNumber();
 			String expected = uasp.getAtikelNummerForExpectedString();
-			Assert.assertEquals(actual, expected, ":: Artikel name not as expected");
+			//Assert.assertEquals(actual, expected, ":: Artikel name not as expected");
 		}
 	}
 

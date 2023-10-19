@@ -146,7 +146,7 @@ public class UserWarenstammPageTest extends BaseClass {
 		}
 	}
 
-	@Test(priority = 1)
+	@Test(priority = 1,groups="Low")
 	public void verifyPossibleToCreatOfWarenstamm_TC54307i() throws InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);

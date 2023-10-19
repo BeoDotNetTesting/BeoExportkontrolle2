@@ -30,6 +30,8 @@ public class UserMasterLoginPage {
 	WebElement artikelstammTabButton;
 	@FindBy(xpath = "//ul[@class='select-list']//li")
 	List<WebElement> userDropBox;
+	@FindBy(xpath = "//nav[@id='navbar_main']//div//li[3] ")
+	WebElement auftragprufungTabButton;
 	@FindBy(id = "btnLogin")
 	WebElement anmelden;
 
@@ -117,5 +119,9 @@ public class UserMasterLoginPage {
 
 	public void clickartikelstammTabButton() {
 		artikelstammTabButton.click();
+	}
+
+	public void clickOnAuftragprufungTabButton() {
+		auftragprufungTabButton.click();
 	}
 }

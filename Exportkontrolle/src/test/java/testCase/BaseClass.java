@@ -9,9 +9,7 @@ import java.util.Properties;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -23,6 +21,7 @@ public class BaseClass {
 	WebDriver driver;
 	ScreenShotCapture sc;
 	public static Properties pro;
+	
 	
 	public static void testBasic() throws IOException {
 		pro = new Properties();
@@ -40,17 +39,17 @@ public class BaseClass {
 	@Parameters("browser")
 	public void beforeMethode(String browserName) throws IOException {
 		if (browserName.equals("chrome")) {
-			/*System.setProperty("webdriver.chrome.driver",
-					System.getProperty("user.dir") + "\\src\\main\\resources\\Driver\\chromedriver.exe");
-			driver = new ChromeDriver();*/
+			
 			testBasic();
-			WebDriverManager.chromedriver().setup();
-			ChromeOptions options = new ChromeOptions();
+			System.setProperty("webdriver.chrome.driver",
+					System.getProperty("user.dir") + "\\src\\main\\resources\\Driver\\chromedriver.exe");
+		/*	ChromeOptions options = new ChromeOptions();
 			options.addArguments("--remote-allow-origins=*");
 			DesiredCapabilities cp=new DesiredCapabilities();
 			cp.setCapability(ChromeOptions.CAPABILITY, options);
 			options.merge(cp);
-			driver = new ChromeDriver(options);
+			driver = new ChromeDriver(options);*/
+			 driver = new ChromeDriver();
 		} else if (browserName.equals("fireFox")) {
 			
 		//	 System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") +
@@ -64,13 +63,14 @@ public class BaseClass {
 		driver.get(pro.getProperty("BaseURL"));		
 		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
 	}
+	
 
 	@AfterMethod(alwaysRun = true)
 	public void afterMethode(ITestResult iTestResult) throws IOException {
 		if (iTestResult.getStatus() == ITestResult.FAILURE) {
 			sc = new ScreenShotCapture();
 			sc.captureFailureScreenShot(driver, iTestResult.getName());
-		}
+		}		
 		driver.close();
 	}
 }
