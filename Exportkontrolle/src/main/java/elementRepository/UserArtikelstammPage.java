@@ -125,16 +125,23 @@ public class UserArtikelstammPage {
 		//return gu.getElementText(headWarenstammWarengruppe);
 		return headWarenstammWarengruppe.getText();	
 	}
+
 	public void waitForHeadingOfWarenstammWarengruppe() {
 		wu.explicitWaitForWebElement(driver, headWarenstammWarengruppe, "id", "head_Warenstamm");
 	}
 	public int getArtikelstammtableSizw() {
 		return artikelstamFolgenummerColumn.size();
 	}
-	public void clickAnyWhereInArtikelstammTable(int column,int row) {
-		String artikelstammTableElementPath="//table[@id='Scroll_tbl_Artikelstam']//tbody//tr["+(column+1)+"]//td["+(row+1)+"]";
+	public void clickAnyWhereInArtikelstammTable(int row,int column) {
+		String artikelstammTableElementPath="//table[@id='Scroll_tbl_Artikelstam']//tbody//tr["+(row+1)+"]//td["+(column+1)+"]";
 		WebElement artikelstammTableElement=driver.findElement(By.xpath(artikelstammTableElementPath));
-		artikelstammTableElement.click();
+		//artikelstammTableElement.click();
+		gu.clickJavaScriptExecutor(artikelstammTableElement, driver);
+	}
+	public void doubleClickArtikelstammTableElementAnyWhere(int row, int column) {
+		String artikelstammTableElementPath="//table[@id='Scroll_tbl_Artikelstam']//tbody//tr["+(row+1)+"]//td["+(column+1)+"]";
+		WebElement element = driver.findElement(By.xpath(artikelstammTableElementPath));
+		gu.mouseDoubleClick(driver, element);		
 	}
 	public void clickOnDeleteButton() {
 		deleteButton.click();
@@ -162,6 +169,9 @@ public class UserArtikelstammPage {
 	public String getAttributeValueOfArtikelnummerField() {
 		return gu.getAttributeValueOfElement(textArtikelnummer, "class");
 	}
+	public String getAttributeValueOfArtikelnummerFieldValue() {
+		return gu.getAttributeValueOfElement(textArtikelnummer, "value");
+	}
 	public String getAttributeValueOfWarennummerField() {
 		return gu.getAttributeValueOfElement(textWarennummer, "class");
 	}
@@ -188,5 +198,7 @@ public class UserArtikelstammPage {
 		ArrayList<String> data = ExcelUtilities.readDataFromExcel("\\src\\main\\resources\\Excel\\Exportkontrol.xls","WTN_Page");				
 		return data.size();
 	}
-	
+	public boolean checkWarrenstammNamePresentOrNotInArtikelStamPageHeading(String word,String scentence) {
+		return gu.checkAWordPresentInScentence(word, scentence);
+	}
 }

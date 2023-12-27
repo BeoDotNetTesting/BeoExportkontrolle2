@@ -2,6 +2,7 @@ package elementRepository;
 
 import java.util.List;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -57,6 +58,11 @@ public class UserMasterLoginPage {
 	}
 
 	public void selectBeoIndiaTestFromDrop() {
+		/*
+		 * String path="//div//ul//li[text()='Test By Akhil Sathyan']"; WebElement
+		 * element=driver.findElement(By.xpath(path)); element.click();
+		 */
+		gu.scrollElementIntoView(driver, beoIndiaTestFromDrop);
 		beoIndiaTestFromDrop.click();
 	}
 

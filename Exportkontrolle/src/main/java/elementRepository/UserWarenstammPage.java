@@ -31,15 +31,15 @@ public class UserWarenstammPage {
 	WebElement exportkontrolleButton;
 	@FindBy(xpath = "//nav[@id='navbar_main']//div//ul//li[2]//a[@class='nav-link']")
 	WebElement artikelstammButton;
-	@FindBy(xpath = "//nav[@id='navbar_main']//div//ul//li[3]//a[@class='nav-link ']")
-	WebElement archivButton;
 	@FindBy(xpath = "//nav[@id='navbar_main']//div//ul//li[4]//a[@class='nav-link ']")
-	WebElement eveVerwaltungButton;
+	WebElement archivButton;
 	@FindBy(xpath = "//nav[@id='navbar_main']//div//ul//li[5]//a[@class='nav-link ']")
-	WebElement toolsButton;
+	WebElement eveVerwaltungButton;
 	@FindBy(xpath = "//nav[@id='navbar_main']//div//ul//li[6]//a[@class='nav-link ']")
-	WebElement embargoButton;
+	WebElement toolsButton;
 	@FindBy(xpath = "//nav[@id='navbar_main']//div//ul//li[7]//a[@class='nav-link ']")
+	WebElement embargoButton;
+	@FindBy(xpath = "//nav[@id='navbar_main']//div//ul//li[8]//a[@class='nav-link ']")
 	WebElement datenExportButton;
 	@FindBy(xpath = "//body")
 	WebElement wholeBodyElement;
@@ -48,18 +48,13 @@ public class UserWarenstammPage {
 	
 
 	// artikelstammBar
-	@FindBy(id = "mainContent_btnGridBack")
-	WebElement warenstammZurukButton;
+	
 	@FindBy(id = "mainContent_btnWarenAdd")
 	WebElement warenstammHinzufugenButton;
 	@FindBy(id = "mainContent_BtnWEdit")
 	WebElement warenstammBearbeitenButton;
 	@FindBy(id = "mainContent_btnDelete")
-	WebElement warenstammLoschenButton;
-	@FindBy(id = "mainContent_btnWarenstamKombine")
-	WebElement warenstammKombinierenButton;
-	@FindBy(id = "mainContent_btnArchive")
-	WebElement warenstammArchivierenButton;
+	WebElement warenstammLoschenButton;		
 	@FindBy(id = "mainContent_btnFileUpload")
 	WebElement warenstammDateiHochladenButton;
 	@FindBy(id = "mainContent_btnFilterArtikel")
@@ -146,15 +141,7 @@ public class UserWarenstammPage {
 	}
 
 	// artikelstammBar function
-
-	public boolean warenstammZurukButtonIsDisplayed() {
-		return warenstammZurukButton.isDisplayed();
-	}
-
-	public boolean warenstammZurukButtonIsEnable() {
-		return warenstammZurukButton.isEnabled();
-	}
-
+	
 	public boolean warenstammHinzufugenButtonIsDisplayed() {
 		return warenstammHinzufugenButton.isDisplayed();
 	}
@@ -178,23 +165,6 @@ public class UserWarenstammPage {
 	public boolean warenstammLoschenButtonIsEnable() {
 		return warenstammLoschenButton.isEnabled();
 	}
-
-	public boolean warenstammKombinierenButtonIsDisplayed() {
-		return warenstammKombinierenButton.isDisplayed();
-	}
-
-	public boolean warenstammKombinierenButtonIsEnable() {
-		return warenstammKombinierenButton.isEnabled();
-	}
-
-	public boolean warenstammArchivierenButtonIsDisplayed() {
-		return warenstammArchivierenButton.isDisplayed();
-	}
-
-	public boolean warenstammArchivierenButtonIsEnable() {
-		return warenstammArchivierenButton.isEnabled();
-	}
-
 	public boolean warenstammDateiHochladenButtonIsDisplayed() {
 		return warenstammDateiHochladenButton.isDisplayed();
 	}
@@ -233,14 +203,21 @@ public class UserWarenstammPage {
 		WebElement element = driver.findElement(By.xpath(tableElement));
 		element.click();
 	}
-
+	public void doubleClickWarenstammTableElementAnyWhere(int row, int column) {
+		String tableElement = "//table[@id='Scroll_tbl_Warenstamm']//tbody//tr[" + (row + 1) + "]//td[" + (column + 1)
+				+ "]";
+		WebElement element = driver.findElement(By.xpath(tableElement));
+		gu.mouseDoubleClick(driver, element);		
+	}
 	public String getTextWarenstammTableElement(int row, int column) {
 		String tableElement = "//table[@id='Scroll_tbl_Warenstamm']//tbody//tr[" + (row + 1) + "]//td[" + (column + 1)
 				+ "]";
 		WebElement element = driver.findElement(By.xpath(tableElement));
 		return element.getText();
 	}
-
+	public boolean checkWarrenstammNamePresentOrNotInArtikelStamPageHeading(String word,String scentence) {
+		return gu.checkAWordPresentInScentence(word, scentence);
+	}
 	public Boolean radioButtonOfWarenstammTableEnableOrNot(int row) {
 		WebElement element = driver.findElement(By.xpath("//table[@id='Scroll_tbl_Warenstamm']//tbody//tr[" + (row + 1)
 				+ "]//td[1]//div//input[@class='form-check-input']"));
@@ -295,7 +272,11 @@ public class UserWarenstammPage {
 		WebElement productGroupIdElement = driver.findElement(By.xpath(productGroupId));
 		productGroupIdElement.click();
 	}
-
+	public void doubleClickWarrenstammIdByPassingValue(int i) {
+		String productGroupId = "//table[@id='Scroll_tbl_Warenstamm']//tbody//tr[" + (i + 1) + "]//td[2]//span";
+		WebElement productGroupIdElement = driver.findElement(By.xpath(productGroupId));
+		gu.mouseDoubleClick(driver, productGroupIdElement);
+	}
 	public String getAttributeValueOfWholeBodyClass() {
 		return gu.getAttributeValueOfElement(wholeBodyElement, "class");
 	}

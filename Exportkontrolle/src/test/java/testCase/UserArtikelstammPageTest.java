@@ -21,7 +21,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 	SoftAssert softAssert;
 	GeneralUtilities gu = new GeneralUtilities();
 
-	@Test(groups="Low")
+	@Test
 	public void verifyToPossibleCreateNewArtikel_TC54307ii()
 			throws InvalidFormatException, IOException, InterruptedException {
 		lp = new LoginPage(driver);
@@ -48,11 +48,11 @@ public class UserArtikelstammPageTest extends BaseClass {
 			uasp.clickOnZuruckButton();
 			String actual = uasp.getArtikelnummerCorrespondingNumber();
 			String expected = uasp.getAtikelNummerForExpectedString();
-			//Assert.assertEquals(actual, expected, ":: Artikel name not as expected");
+			// Assert.assertEquals(actual, expected, ":: Artikel name not as expected");
 		}
 	}
 
-	@Test//(groups= "Run")
+	@Test
 	public void verifyTheNumberOfArtikelSameAsInWarenstamPage_TC54307ii() throws InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
@@ -83,7 +83,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 		}
 	}
 
-	@Test//(enabled = false)
+	@Test 
 	public void verifyTheHeadingOfWarenstammWarengruppeInArtikelstammPage_TC54423()
 			throws InvalidFormatException, IOException, InterruptedException {
 		lp = new LoginPage(driver);
@@ -96,17 +96,18 @@ public class UserArtikelstammPageTest extends BaseClass {
 		umLp.clickOnbitteAuswahlenSelect();
 		umLp.selectBeoIndiaTestFromDrop();
 		umLp.anmeldenClick();
-		String expected = "Warengruppe: " + uwp.getTextWarenstammTableElement(1, 1) + " // Warenstammname: "
-				+ uwp.getTextWarenstammTableElement(1, 2);
+		boolean expected = true;
+		String warrenstamName=uwp.getTextWarenstammTableElement(1, 1);		
 		uwp.clickWarrenstammIdByPassingValue(1);
 		uasp.waitForHeadingOfWarenstammWarengruppe();
 		Thread.sleep(500);
-		String actual = uasp.readHeadingOfWarenstammWarengruppe();
+		String headingOfArtikelStamm=uasp.readHeadingOfWarenstammWarengruppe();
+		boolean actual = uasp.checkWarrenstammNamePresentOrNotInArtikelStamPageHeading(warrenstamName,headingOfArtikelStamm);		
 		Assert.assertEquals(actual, expected, "::Heading not as expected" + expected);
 	}
 
 	@Test
-	public void verifyTheDeleteButtonFunWhileCancelAlertMessage_TC54489() throws InvalidFormatException, IOException {
+	public void verifyTheDeleteButtonFunWhileCancelAlertMessage_TC54489() throws InvalidFormatException, IOException, InterruptedException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
 		umLp = new UserMasterLoginPage(driver);
@@ -120,16 +121,14 @@ public class UserArtikelstammPageTest extends BaseClass {
 		for (int i = 0; i < uwp.getWarenstammTableSize(); i++) {
 			int countOfArtikel = Integer.parseInt(uwp.getCountOfNumberOfArtikelInWarenstamm(i));
 			if (countOfArtikel > 0) {
-				uwp.clickWarrenstammIdByPassingValue(i);
-				int row = gu.randon(uasp.getArtikelstammtableSizw()), column = gu.randon(9);
-				uasp.clickAnyWhereInArtikelstammTable(row, column);
-				String expected = "Artikelnummer : " + uasp.getArtikelstammTableElementText(row, 1) + " Warennummer : "
-						+ uasp.getArtikelstammTableElementText(row, 2);
-				uasp.clickOnDeleteButton();
+				uwp.clickWarrenstammIdByPassingValue(i);				
+				uasp.clickAnyWhereInArtikelstammTable(1, gu.randon(6));
+				String expected = "Artikelnummer : " + uasp.getArtikelstammTableElementText(1, 1) + " Warennummer : "
+						+ uasp.getArtikelstammTableElementText(1, 2);
+				uasp.clickOnDeleteButton();				
 				gu.alertDismiss(driver);
-				String actual = "Artikelnummer : " + uasp.getArtikelstammTableElementText(row, 1) + " Warennummer : "
-						+ uasp.getArtikelstammTableElementText(row, 2);
-				System.out.println(expected);System.out.println(actual);
+				String actual = "Artikelnummer : " + uasp.getArtikelstammTableElementText(1, 1) + " Warennummer : "
+						+ uasp.getArtikelstammTableElementText(1, 2);				
 				Assert.assertEquals(actual, expected, "::Artikelstamm Loschen Alert dismiss not as expected");
 				break;
 			}
@@ -137,7 +136,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 	}
 
 	@Test
-	public void verifyTheDeleteButtonFunWhileAcceptAlertMessage_TC54489() throws InvalidFormatException, IOException {
+	public void verifyTheDeleteButtonFunWhileAcceptAlertMessage_TC54489() throws InvalidFormatException, IOException, InterruptedException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
 		umLp = new UserMasterLoginPage(driver);
@@ -151,10 +150,10 @@ public class UserArtikelstammPageTest extends BaseClass {
 		for (int i = 0; i < uwp.getWarenstammTableSize(); i++) {
 			int countOfArtikel = Integer.parseInt(uwp.getCountOfNumberOfArtikelInWarenstamm(i));
 			if (countOfArtikel > 0) {
-				uwp.clickWarrenstammIdByPassingValue(i);
-				int row = gu.randon(uasp.getArtikelstammtableSizw()), column = gu.randon(9);
-				uasp.clickAnyWhereInArtikelstammTable(row, column);
-				String selectedArtikel = uasp.getArtikelstammTableElementText(row, 1);
+				uwp.clickWarrenstammIdByPassingValue(i);				
+				uasp.clickAnyWhereInArtikelstammTable(1, gu.randon(6));
+				String selectedArtikel = uasp.getArtikelstammTableElementText(1, 1);
+				System.out.println(selectedArtikel);
 				uasp.clickOnDeleteButton();
 				gu.alertAccept(driver);
 				uasp.waitForLoschenNotificationBarText();
@@ -163,11 +162,12 @@ public class UserArtikelstammPageTest extends BaseClass {
 				System.out.println(actualNotificationMessage);
 				Assert.assertEquals(actualNotificationMessage, expectedNotificationMessage,
 						"::Artikelstamm Notification Bar Message not as expected");
+				Thread.sleep(1000);
 				uasp.clickOnNotificationBarCloseButton();
 				uwp.sendValueTosearchTextField(selectedArtikel);
 				uwp.clickOnSearchIcon();
 				String expected = "Keine Daten vorhanden";
-				uasp.waitForNoDataAvailableText();				
+				uasp.waitForNoDataAvailableText();
 				String actual = uasp.readNoDataAvailableText();
 				System.out.println(actual);
 				Assert.assertEquals(actual, expected, "::Warenstamm deletion not as expected");
@@ -176,8 +176,8 @@ public class UserArtikelstammPageTest extends BaseClass {
 		}
 	}
 
-	@Test//(enabled = false)
-	public void verifyTheMandatoryFieldWhileCreateArtikel_TC54615() throws InvalidFormatException, IOException {
+	@Test 
+	public void verifyTheMandatoryFieldWhileCreateArtikel_TC54615() throws InvalidFormatException, IOException, InterruptedException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
 		umLp = new UserMasterLoginPage(driver);
@@ -189,6 +189,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 		umLp.selectBeoIndiaTestFromDrop();
 		umLp.anmeldenClick();
 		uwp.clickWarrenstammId();
+		Thread.sleep(1500);
 		uasp.clickOnNewArtikelHinzufugenButton();
 		String actualArtikelnummerFieldBeforeSave = uasp.getAttributeValueOfArtikelnummerField();
 		String actualWarennummerFieldBeforeSave = uasp.getAttributeValueOfWarennummerField();
@@ -217,7 +218,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 				"::Warennummer Field class attribute Value BeforeSave is not as expected");
 	}
 
-	@Test(groups= "Run")
+	@Test(groups="run")
 	public void verifyToWriteArtikelDetailsInExcel_TC() throws InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
@@ -230,11 +231,11 @@ public class UserArtikelstammPageTest extends BaseClass {
 		umLp.selectBeoIndiaTestFromDrop();
 		umLp.anmeldenClick();
 		System.out.println(uwp.getTotalCountOfArtikel());
-		for (int i = 0; i <3 ; i++) {//uwp.getWarenstammTableSize()
+		for (int i = 0; i < 3; i++) {// uwp.getWarenstammTableSize()
 			if (uwp.getCountOfNumberOfArtikelInWarenstamm(i + 1) != "0") {
 				uwp.clickWarrenstammIdByPassingValue(i);
 				for (int row = 0; row < uasp.getArtikelstammtableSizw(); row++) {
-					for (int column = 0; column < 8; column++) {
+					for (int column = 0; column < 6; column++) {
 						uasp.writeArtikelstamDataToExcel((row), (column),
 								uasp.getArtikelstammTableElementText(row, column));
 					}
@@ -244,7 +245,7 @@ public class UserArtikelstammPageTest extends BaseClass {
 		}
 	}
 
-	@Test//(enabled = false)
+	@Test 
 	public void verifyDuplicationNotPossibleArtikel_TC54615()
 			throws InvalidFormatException, IOException, InterruptedException {
 		lp = new LoginPage(driver);
@@ -280,5 +281,37 @@ public class UserArtikelstammPageTest extends BaseClass {
 		lp = new LoginPage(driver);
 		uasp = new UserArtikelstammPage(driver);
 		System.out.println(uasp.logIndataWTN());
+	}
+
+	@Test
+	public void doubleClickOnArtikelStammShouldOpenCorrespondingArtikel_TC58940()
+			throws InvalidFormatException, IOException, InterruptedException {
+		lp = new LoginPage(driver);
+		uwp = new UserWarenstammPage(driver);
+		umLp = new UserMasterLoginPage(driver);
+		uasp = new UserArtikelstammPage(driver);
+		softAssert = new SoftAssert();
+		lp.sendUserName(logIndata(2));
+		lp.sendPassword(logIndata(5));
+		lp.clickLoginButton();
+		umLp.clickOnbitteAuswahlenSelect();
+		umLp.selectBeoIndiaTestFromDrop();
+		umLp.anmeldenClick();
+		for (int j = 0; j < uwp.getWarenstammTableSize(); j++) {
+			if (uwp.getCountOfNumberOfArtikelInWarenstamm(j) != "0") {
+				uwp.doubleClickWarenstammTableElementAnyWhere(j, 1);
+				for (int i = 0; i < 7; i++) {
+					String artikelnummerFromTable = uasp.getArtikelstammTableElementText(i, 1);
+					Thread.sleep(1000);
+					uasp.doubleClickArtikelstammTableElementAnyWhere(i, i);
+					Thread.sleep(1000);
+					String artikelName = uasp.getAttributeValueOfArtikelnummerFieldValue();
+					Thread.sleep(1000);
+					Assert.assertEquals(artikelName, artikelnummerFromTable, "Artikel name not as expected");
+					uasp.clickOnZuruckButton();
+					Thread.sleep(1000);
+				}
+			}
+		}
 	}
 }

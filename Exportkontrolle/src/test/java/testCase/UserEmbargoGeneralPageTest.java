@@ -5,10 +5,12 @@ import java.io.IOException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import elementRepository.LoginPage;
 import elementRepository.UserArtikelstammAddOrEditPage;
 import elementRepository.UserArtikelstammPage;
+import elementRepository.UserEmbargoGeneralEditPage;
 import elementRepository.UserEmbargoGeneralPage;
 import elementRepository.UserMasterLoginPage;
 import elementRepository.UserWarenstammPage;
@@ -21,7 +23,9 @@ public class UserEmbargoGeneralPageTest extends BaseClass {
 	UserArtikelstammPage uasp;
 	UserArtikelstammAddOrEditPage uaaep;
 	UserEmbargoGeneralPage uegp;
+	UserEmbargoGeneralEditPage uegep;
 	GeneralUtilities gu = new GeneralUtilities();
+	SoftAssert softAssert;
 
 	@Test(priority = 2)
 	public void checkWeatherCanAddEmbargoCountry_TC56116i()
@@ -54,7 +58,7 @@ public class UserEmbargoGeneralPageTest extends BaseClass {
 		Assert.assertEquals(uegp.getTableSizeOfLanderListeLanderTable(), allLanderTableSize,
 				":: Selected country number Not As Expected");
 	}
-	
+
 	@Test(priority = 1)
 	public void verifyToDeleteSelectedEmbargoCountry_TC56117()
 			throws InvalidFormatException, IOException, InterruptedException {
@@ -82,7 +86,7 @@ public class UserEmbargoGeneralPageTest extends BaseClass {
 		uegp.clickOnSelectAllSelectedCountryRadioButton();
 		uegp.clcickOnSelectedCountryLoschenButton();
 		gu.alertAccept(driver);
-		uegp.waitForEmbargoNotificationMessage();		
+		uegp.waitForEmbargoNotificationMessage();
 		Assert.assertEquals(uegp.readEmbargoNotificationMessage(), "Gelöscht",
 				":: Country added message not as expected");
 
@@ -118,5 +122,40 @@ public class UserEmbargoGeneralPageTest extends BaseClass {
 		uegp.clickOnDropDownOfLanderListe(2);
 		Assert.assertEquals(uegp.getTableSizeOfLanderListeLanderTable(), allLanderTableSize,
 				":: Selected country number Not As Expected");
+	}
+
+	@Test(groups = "run")
+	public void doubleClickOnEmbargoLandShouldOpenCorrespondingEmbargoLand_TC58941()
+			throws InvalidFormatException, IOException, InterruptedException {
+		lp = new LoginPage(driver);
+		uwp = new UserWarenstammPage(driver);
+		umLp = new UserMasterLoginPage(driver);
+		uasp = new UserArtikelstammPage(driver);
+		uegp = new UserEmbargoGeneralPage(driver);
+		uegep = new UserEmbargoGeneralEditPage(driver);
+		softAssert = new SoftAssert();
+		lp.sendUserName(logIndata(2));
+		lp.sendPassword(logIndata(5));
+		lp.clickLoginButton();
+		umLp.clickOnbitteAuswahlenSelect();
+		umLp.selectBeoIndiaTestFromDrop();
+		umLp.anmeldenClick();
+		uegp.clickOnEmbargoButton();
+		Thread.sleep(1000);
+		uegp.clickOnLanderubersicht();
+		Thread.sleep(1000);
+		uegp.clickOnDropDownOfLanderListe(2);
+
+		for (int i = 0; i < 5; i++) {
+			String embargoLandNAmeFromTable = uegp.readEmbargoCountryNameFromTable(i, 1);
+			Thread.sleep(1000);
+			uegp.doubleClickEmbargoTableElementAnyWhere(i, i);
+			Thread.sleep(1000);
+			String embargoLandName = uegep.getAttributeValueOfLanderNameFieldValue();
+			Thread.sleep(1000);
+			Assert.assertEquals(embargoLandName, embargoLandNAmeFromTable, "Embargo Land name not as expected");
+			uegep.clickOnEmbargoZuruckButton();
+			Thread.sleep(1000);
+		}
 	}
 }

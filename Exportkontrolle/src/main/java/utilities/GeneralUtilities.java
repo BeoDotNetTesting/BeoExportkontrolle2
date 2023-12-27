@@ -199,7 +199,20 @@ public class GeneralUtilities {
 	}
 	public String generateCurrentDateAndTime() {
 		Date date = new Date();		
-		SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyhhmmss");
+		SimpleDateFormat formatter = new SimpleDateFormat("ddMMyyHHmmss");
 		return formatter.format(date);		
 	}
+	public boolean checkAWordPresentInScentence(String substringToCheck, String sentence) {
+		boolean status= false;
+		  if (sentence.contains(substringToCheck)) {
+	           status=true;
+	        } else {
+	        	status=false;
+	        }
+		  return status;
+	    }
+	public void scrollElementIntoView(WebDriver driver, WebElement element) {
+	        JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+	        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", element);
+	    }
 }

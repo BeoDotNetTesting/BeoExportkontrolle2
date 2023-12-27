@@ -19,7 +19,7 @@ public class UserArtikelstammAddOrEditPageTest extends BaseClass {
 	UserArtikelstammPage uasp;
 	UserArtikelstammAddOrEditPage uaaep;
 
-	@Test//(enabled = false)
+	@Test(groups="run")
 	public void checkAlNumTriftNitchZuAusfuhrlistenGenehmigungTabColourTC53212Part1()
 			throws InvalidFormatException, IOException, InterruptedException {
 		lp = new LoginPage(driver);

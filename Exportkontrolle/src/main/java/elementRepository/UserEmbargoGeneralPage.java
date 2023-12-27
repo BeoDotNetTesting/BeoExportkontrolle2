@@ -24,7 +24,7 @@ public class UserEmbargoGeneralPage {
 		PageFactory.initElements(driver, this);
 	}
 
-	@FindBy(xpath = "//div[@class='container-fluid']//ul//li[6]//a")
+	@FindBy(xpath = "//div[@class='container-fluid']//ul//li[7]//a")
 	WebElement embargoButton;
 	@FindBy(xpath = "//label[text()='Länderübersicht']")
 	WebElement landerubersicht;
@@ -108,5 +108,16 @@ public class UserEmbargoGeneralPage {
 		WebElement artikelSperrenColourPathElement=driver.findElement(By.xpath(artikelSperrenColourPath));
 		String alleAnzeigenColour=gu.getAttributeValueOfElement(verordnungenColourPathElement, "class")+gu.getAttributeValueOfElement(warenNummernSperrenColourPathElement, "class")+gu.getAttributeValueOfElement(artikelSperrenColourPathElement, "class");
 		return alleAnzeigenColour;
+	}
+	
+	public void doubleClickEmbargoTableElementAnyWhere(int row, int column) {
+		String embargoTableElementPath="//table[@id='Scroll_tbl_SelectedCountry']//tbody//tr["+(row+1)+"]//td["+(column+1)+"]";
+		WebElement element = driver.findElement(By.xpath(embargoTableElementPath));
+		gu.mouseDoubleClick(driver, element);		
+	}
+	public String readEmbargoCountryNameFromTable(int row, int column) {
+		String embargoLandNameElementPath="//table[@id='Scroll_tbl_SelectedCountry']//tbody//tr["+(row+1)+"]//td["+(column+1)+"]//a";
+		WebElement element = driver.findElement(By.xpath(embargoLandNameElementPath));
+		return element.getText();
 	}
 }

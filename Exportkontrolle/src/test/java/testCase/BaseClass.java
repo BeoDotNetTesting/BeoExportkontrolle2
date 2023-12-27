@@ -17,6 +17,7 @@ import org.testng.annotations.Parameters;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import utilities.ExcelUtilities;
 import utilities.ScreenShotCapture;
+import utilities.WebDriverSingleton;
 public class BaseClass {
 	WebDriver driver;
 	ScreenShotCapture sc;
@@ -41,15 +42,16 @@ public class BaseClass {
 		if (browserName.equals("chrome")) {
 			
 			testBasic();
-			System.setProperty("webdriver.chrome.driver",
-					System.getProperty("user.dir") + "\\src\\main\\resources\\Driver\\chromedriver.exe");
+			WebDriverManager.chromedriver().setup();
+			//System.setProperty(pro.getProperty("chromeDriver"),System.getProperty("user.dir") + "\\src\\main\\resources\\Driver\\chromedriver.exe");
 		/*	ChromeOptions options = new ChromeOptions();
 			options.addArguments("--remote-allow-origins=*");
 			DesiredCapabilities cp=new DesiredCapabilities();
 			cp.setCapability(ChromeOptions.CAPABILITY, options);
 			options.merge(cp);
 			driver = new ChromeDriver(options);*/
-			 driver = new ChromeDriver();
+			driver = new ChromeDriver();
+			//driver=WebDriverSingleton.getDriver();
 		} else if (browserName.equals("fireFox")) {
 			
 		//	 System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir") +

@@ -1,7 +1,7 @@
-<suite name="ExportKontrolle" parallel="tests" thread-count="1">
+<suite name="ExportKontrolle" parallel="methods" thread-count="1">
 	<test name="FireFoxTest">
 		<listeners>
-			<listener class-name="utilities.RetryListener"/>
+			<listener class-name="utilities.RetryListener" />
 			<listener class-name="utilities.ExtenetReport" />
 		</listeners>
 		<parameter name="browser" value="chrome"></parameter>

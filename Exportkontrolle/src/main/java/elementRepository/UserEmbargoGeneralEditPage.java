@@ -42,7 +42,13 @@ public class UserEmbargoGeneralEditPage {
 	WebElement warenNummerTextField;
 	@FindBy(id = "mainContent_btnAddWarennummer")
 	WebElement addWarenNummerButton;
+	@FindBy(id="mainContent_txtlandname")
+	WebElement landerNameField;
+	
 
+	public String getAttributeValueOfLanderNameFieldValue() {
+		return gu.getAttributeValueOfElement(landerNameField, "value");
+	}
 	public void clickOnVerordnungenButton() {
 		verordnungenButton.click();
 	}

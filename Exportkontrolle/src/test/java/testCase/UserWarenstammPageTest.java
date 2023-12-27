@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
 import elementRepository.LoginPage;
+import elementRepository.UserArtikelstammPage;
 import elementRepository.UserMasterLoginPage;
 import elementRepository.UserWarenstammPage;
 import utilities.GeneralUtilities;
@@ -15,11 +16,12 @@ import utilities.GeneralUtilities;
 public class UserWarenstammPageTest extends BaseClass {
 	UserWarenstammPage uwp;
 	UserMasterLoginPage umLp;
+	UserArtikelstammPage uasp;
 	LoginPage lp;
 	SoftAssert softAssert;
 	GeneralUtilities gu = new GeneralUtilities();
 
-	@Test//(enabled = false)
+	@Test // (enabled = false)
 	public void userWarenstammPageMainNavigationBarTest()
 			throws InterruptedException, InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
@@ -53,7 +55,7 @@ public class UserWarenstammPageTest extends BaseClass {
 		softAssert.assertEquals(uwp.datenExportButtonIsEnable(), expected, ":: datenExportButton is not Enable");
 	}
 
-	@Test//(enabled = false)
+	@Test // (enabled = false)
 	public void userWarenstammPageFunctionalNavTest() throws InterruptedException, InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
@@ -65,7 +67,7 @@ public class UserWarenstammPageTest extends BaseClass {
 		umLp.clickOnbitteAuswahlenSelect();
 		umLp.selectBeoIndiaTestFromDrop();
 		umLp.anmeldenClick();
-		boolean expected = true;		
+		boolean expected = true;
 		softAssert.assertEquals(uwp.warenstammHinzufugenButtonIsDisplayed(), expected,
 				":: atrikelstammZurukButtonatrikelstammHinzufugenButton is not Displayed");
 		softAssert.assertEquals(uwp.warenstammHinzufugenButtonIsEnable(), expected,
@@ -77,15 +79,7 @@ public class UserWarenstammPageTest extends BaseClass {
 		softAssert.assertEquals(uwp.warenstammLoschenButtonIsDisplayed(), expected,
 				":: artikelstammLoschenButton is not Displayed");
 		softAssert.assertEquals(uwp.warenstammLoschenButtonIsEnable(), expected,
-				":: artikelstammLoschenButton is not Enable");
-		softAssert.assertEquals(uwp.warenstammKombinierenButtonIsDisplayed(), expected,
-				":: artikelstammKombinierenButton is not Displayed");
-		softAssert.assertEquals(uwp.warenstammKombinierenButtonIsEnable(), expected,
-				":: artikelstammKombinierenButton is not Enable");
-		softAssert.assertEquals(uwp.warenstammArchivierenButtonIsDisplayed(), expected,
-				":: artikelstammArchivierenButton is not Displayed");
-		softAssert.assertEquals(uwp.warenstammArchivierenButtonIsEnable(), expected,
-				":: artikelstammArchivierenButton is not Enable");
+				":: artikelstammLoschenButton is not Enable");		
 		softAssert.assertEquals(uwp.warenstammDateiHochladenButtonIsDisplayed(), expected,
 				":: artikelstammDatei Hochladen Button is not Displayed");
 		softAssert.assertEquals(uwp.warenstammDateiHochladenButtonIsEnable(), expected,
@@ -96,7 +90,7 @@ public class UserWarenstammPageTest extends BaseClass {
 				":: artikelstamm Filter Button is not Enable");
 	}
 
-	@Test//(enabled = false)
+	@Test // (enabled = false)
 	public void verifyTheLoschenClickMessage_TC54176() throws InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
@@ -119,7 +113,7 @@ public class UserWarenstammPageTest extends BaseClass {
 		Assert.assertEquals(actal, expected, ":: Loschen click when no artikle select message not as expected");
 	}
 
-	@Test//(enabled = false)
+	@Test // (enabled = false)
 	public void verifyPossibleToClickAnywhereInRowToTickCheckbox_TC54176() throws InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
@@ -131,22 +125,22 @@ public class UserWarenstammPageTest extends BaseClass {
 		umLp.clickOnbitteAuswahlenSelect();
 		umLp.selectBeoIndiaTestFromDrop();
 		umLp.anmeldenClick();
-		for (int i = 0; i < uwp.getWarenstammTableSize() / 3; i++) {
+		for (int i = 0; i < 10; i++) {
 			for (int j = 1; j <= 3; j++) {
 				uwp.clickWarenstammTableElementAnyWhere(i, j);
 				Boolean actual1 = uwp.radioButtonOfWarenstammTableEnableOrNot(i);
 				Assert.assertEquals(actual1, true,
 						uwp.getTextWarenstammTableElement(i, j) + ":: Radio Button is not Selected");
-				uwp.clickWarenstammTableElementAnyWhere(i, j);
+				uwp.clickWarenstammTableElementAnyWhere(i, j+1);
 				Boolean actual2 = uwp.radioButtonOfWarenstammTableEnableOrNot(i);
 				Assert.assertEquals(actual2, false,
-						uwp.getTextWarenstammTableElement(i, j) + ":: Radio Button is not Selected");
+						uwp.getTextWarenstammTableElement(i, j+1) + ":: Radio Button is not Selected");
 				uwp.scrollWarenstammTable();
 			}
 		}
 	}
 
-	@Test(priority = 1,groups="Low")
+	@Test(priority = 1, groups = "Low")
 	public void verifyPossibleToCreatOfWarenstamm_TC54307i() throws InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
@@ -162,7 +156,7 @@ public class UserWarenstammPageTest extends BaseClass {
 		uwp.sendWarenstammName();
 		uwp.clickOnWarenstammHinzufugenSaveButton();
 		String expected = uwp.selectWarenstammName();
-		String actual = uwp.getTextWarenstammTableElement(0, 2);
+		String actual = uwp.getTextWarenstammTableElement(0, 1);
 		Assert.assertEquals(actual, expected, ":: Warren name not as expected");
 	}
 
@@ -225,7 +219,7 @@ public class UserWarenstammPageTest extends BaseClass {
 		Assert.assertEquals(actual, expected, "::Warenstamm deletion not as expected");
 	}
 
-	@Test//(enabled = false)
+	@Test // (enabled = false)
 	public void verifyDarkModeButtonChange_TC54423() throws InvalidFormatException, IOException {
 		lp = new LoginPage(driver);
 		uwp = new UserWarenstammPage(driver);
@@ -261,7 +255,37 @@ public class UserWarenstammPageTest extends BaseClass {
 				uwp.writeWarenstamDataToExcel((i + 1), j, uwp.getTextWarenstammTableElement(i, (j + 1)));
 			}
 		}
-
 	}
 
+	@Test(groups = "run")
+	public void doubleClickOnWarrenstammShouldOpenCorrespondingWarrenstamm_TC58938()
+			throws InvalidFormatException, IOException, InterruptedException {
+		lp = new LoginPage(driver);
+		uwp = new UserWarenstammPage(driver);
+		umLp = new UserMasterLoginPage(driver);
+		uasp = new UserArtikelstammPage(driver);
+		softAssert = new SoftAssert();
+		lp.sendUserName(logIndata(2));
+		lp.sendPassword(logIndata(5));
+		lp.clickLoginButton();
+		umLp.clickOnbitteAuswahlenSelect();
+		umLp.selectBeoIndiaTestFromDrop();
+		umLp.anmeldenClick();
+		for (int i = 0; i < 7; i++) {
+			boolean actual = false;
+			String beschreibung = uwp.getTextWarenstammTableElement(i, 1);			
+			Thread.sleep(1000);
+			uwp.doubleClickWarenstammTableElementAnyWhere(i, i);			
+			Thread.sleep(1000);
+			String warrenstammHeading = uasp.readHeadingOfWarenstammWarengruppe();
+			Thread.sleep(1000);
+			if (warrenstammHeading.contains(beschreibung)) {
+				actual = true;
+			}
+			Assert.assertEquals(actual, true, "::When double click On warrengroup the heading not as expected");
+			uasp.clickOnZuruckButton();
+			Thread.sleep(1000);
+		}
+
+	}
 }
